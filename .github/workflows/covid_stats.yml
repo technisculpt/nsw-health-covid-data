@@ -1,5 +1,4 @@
-name: Update COVID stats and deploy React app
-
+name: Update COVID stats
 on:
   schedule:
     - cron:  '*/5 * * * *'
@@ -9,16 +8,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@3
+    - uses: actions/checkout@v3
     - uses: actions/setup-python@v4
       with:
         python-version: '3.10'
-        cache: 'pip' # caching pip dependencies
+        cache: 'pip'
     - run: pip install -r requirements.txt
 
     - name: Run main
       id: python_script
       run: python nsw_api.py
+
+    - name: Push to repo
+      if: steps.python_script.outcome == 'success'
+      run: |
+        git diff
+        git config --local user.email "technisculpt@users.noreply.github.com"
+        git config --local user.name "GitHub Action"
+        git commit -am "Update stats" || exit 0
+        git push
+
+
     # run: python nsw_pdf.py pdfs no longer lists deaths
     # run: python nsw_website.py work in progress
 
@@ -39,12 +49,3 @@ jobs:
     #   run: |
     #     cd /path/to/your/react/app
     #     npm run deploy
-
-    - name: Push to repo
-      if: steps.python_script.outcome == 'success'
-      run: |
-        git diff
-        git config --local user.email "technisculpt@users.noreply.github.com"
-        git config --local user.name "GitHub Action"
-        git commit -am "Update stats" || exit 0
-        git push
