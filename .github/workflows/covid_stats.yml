@@ -2,15 +2,15 @@ name: Update COVID stats and deploy React app
 
 on:
   schedule:
-    - cron:  '*/15 * * * *'
+    - cron:  '*/5 * * * *'
 
 jobs:
   update_stats:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
+    - uses: actions/checkout@2
+    - uses: actions/setup-python@v2
       with:
         python-version: '3.10'
         cache: 'pip' # caching pip dependencies
