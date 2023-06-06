@@ -1,0 +1,49 @@
+name: Update COVID stats and deploy React app
+
+on:
+  schedule:
+    - cron:  '*/15 * * * *'
+
+jobs:
+  update_stats:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip' # caching pip dependencies
+    - run: pip install -r requirements.txt
+        python-version: '3.10' 
+
+    - run: python nsw_api.py
+    #- run: python nsw_pdf.py pdfs no longer lists deaths
+    #- run: python nsw_website.py
+
+
+    # - name: Install Node.js
+    #   if: steps.python_script.outcome == 'success'
+    #   uses: actions/setup-node@v2
+    #   with:
+    #     node-version: '14'
+
+    # - name: Install npm dependencies
+    #   if: steps.python_script.outcome == 'success'
+    #   run: |
+    #     cd /path/to/your/react/app
+    #     npm install
+
+    # - name: Build and deploy React app
+    #   if: steps.python_script.outcome == 'success'
+    #   run: |
+    #     cd /path/to/your/react/app
+    #     npm run deploy
+
+      if: steps.python_script.outcome == 'success'
+      run: |
+        git diff
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -am "Update stats" || exit 0
+        git push
