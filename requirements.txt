@@ -2,4 +2,4 @@ pandas
 matplotlib
 scipy
 requests
-BeautifulSoup
+BeautifulSoup4
