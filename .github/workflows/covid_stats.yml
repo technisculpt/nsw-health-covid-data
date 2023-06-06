@@ -17,9 +17,11 @@ jobs:
     - run: pip install -r requirements.txt
         python-version: '3.10' 
 
-    - run: python nsw_api.py
-    #- run: python nsw_pdf.py pdfs no longer lists deaths
-    #- run: python nsw_website.py
+    - name: Run main
+      id: python_script
+      run: python nsw_api.py
+    # run: python nsw_pdf.py pdfs no longer lists deaths
+    # run: python nsw_website.py
 
 
     # - name: Install Node.js

@@ -1,5 +1,6 @@
 from timeit import timeit
 from math import floor
+import sys
 from os import sep, remove
 from os import path as os_path
 import requests
@@ -145,6 +146,7 @@ def main():
     NSW_Health_API()
     csv_to_time_series()
     filter_time_series_and_plot()
+    sys.exit(0)
 
 if __name__ == "__main__":
     result = timeit(stmt=f"main()", globals=globals(), number=1)
