@@ -22,7 +22,6 @@ jobs:
     # run: python nsw_pdf.py pdfs no longer lists deaths
     # run: python nsw_website.py
 
-
     # - name: Install Node.js
     #   if: steps.python_script.outcome == 'success'
     #   uses: actions/setup-node@v2
@@ -41,10 +40,11 @@ jobs:
     #     cd /path/to/your/react/app
     #     npm run deploy
 
+    - name: Push to repo
       if: steps.python_script.outcome == 'success'
       run: |
         git diff
-        git config --local user.email "action@github.com"
+        git config --local user.email "technisculpt@users.noreply.github.com"
         git config --local user.name "GitHub Action"
         git commit -am "Update stats" || exit 0
         git push
