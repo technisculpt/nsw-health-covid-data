@@ -17,12 +17,16 @@ jobs:
         cache: 'pip'
     - run: pip install -r requirements.txt
 
-    - name: Run main
-      id: python_script
+    - name: Scrape website
+      id: website
+      run: python nsw_website.py
+
+    - name: NSW api
+      id: new_cases
       run: python nsw_api.py
 
     - name: Push to repo
-      if: steps.python_script.outcome == 'success'
+      if: steps.new_cases.outcome == 'success'
       run: |
         git diff
         git config --local user.email "technisculpt@users.noreply.github.com"

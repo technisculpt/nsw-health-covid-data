@@ -138,15 +138,12 @@ class NSW_Health_API:
             res = self.session.get(f"{self.url}&limit={self.total_records}").json()
             self.limit = res["result"]["limit"]
             self.update_cases()
-        else:
-            print(f"no new cases")
-
+            csv_to_time_series()
+            filter_time_series_and_plot()
+            sys.exit(0)
 
 def main():
     NSW_Health_API()
-    csv_to_time_series()
-    filter_time_series_and_plot()
-    sys.exit(0)
 
 if __name__ == "__main__":
     result = timeit(stmt=f"main()", globals=globals(), number=1)
