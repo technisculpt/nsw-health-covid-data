@@ -19,8 +19,8 @@ nsw_url = r'https://data.nsw.gov.au/data/api/3/action/datastore_search?resource_
 endpoint = r'5d63b527-e2b8-4c42-ad6f-677f14433520'
 
 out_dir = sep.join(os_path.realpath(__file__).split(sep)[0:-1] + ['output'])
-csv_path = os_path.join(out_dir, 'nsw_health_master.csv') # per postcode per day - might get too big for github
-dates_cases_path = os_path.join(out_dir, 'dates_cases_master.csv') # just dates and cases
+csv_path = os_path.join(out_dir, 'nsw_health_master.csv') # raw data
+dates_cases_path = os_path.join(out_dir, 'dates_cases.csv') # just dates and cases per day
 
 #start_date = '2021-11-01' # removal of restrictions
 #start_date = '2022-02-19' # deaths started reporting
