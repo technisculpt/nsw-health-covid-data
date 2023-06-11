@@ -8,7 +8,7 @@ from os import path as os_path
 from sys import path as sys_path
 import requests
 
-from PyPDF2 import PdfReader
+#from PyPDF2 import PdfReader
 
 from common.plotting import step_plot
 import common.latest_data as latest_data
