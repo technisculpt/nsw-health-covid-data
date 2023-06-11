@@ -79,8 +79,16 @@ new_data = {
     "pcr_cases": pcr_cases
 }
 
+deaths = {
+    "date": date.date(), 
+    "deaths": lives_lost
+}
+
 new_row = pd.DataFrame(new_data, index=[0])
-new_row.to_csv('output/website.csv', mode='a', header=False, index=False)
+new_row.to_csv('output/website_stats.csv', mode='a', header=False, index=False)
+
+deaths_only = pd.DataFrame(deaths, index=[0])
+deaths_only.to_csv('output/deaths.csv', mode='a', header=False, index=False)
 
 latest_data.put('nsw_asp', str(date))
 

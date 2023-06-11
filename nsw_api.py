@@ -21,6 +21,8 @@ endpoint = r'5d63b527-e2b8-4c42-ad6f-677f14433520'
 out_dir = sep.join(os_path.realpath(__file__).split(sep)[0:-1] + ['output'])
 csv_path = os_path.join(out_dir, 'nsw_health_master.csv') # raw data
 dates_cases_path = os_path.join(out_dir, 'dates_cases.csv') # just dates and cases per day
+plots_data = os_path.join(out_dir, 'plots_data')
+plots = os_path.join(out_dir, 'plots')
 
 #start_date = '2021-11-01' # removal of restrictions
 #start_date = '2022-02-19' # deaths started reporting
@@ -71,12 +73,13 @@ def filter_time_series_and_plot():
     end_date_split = "".join(current_date.split("-"))
     filename = start_date_split + '-' + end_date_split
     pd_cases_trunc = pd_cases.loc[pd.to_datetime(start_date):pd.to_datetime(current_date)]
-    pd_cases_trunc.to_csv(path_or_buf=os_path.join(out_dir, f"{filename}.csv"))
+    pd_cases_trunc.to_csv(path_or_buf=os_path.join(plots_data, f"{filename}.csv"))
     avg = pd_cases_trunc.rolling(window=7).mean().dropna()
     avg['confirm'] = avg['confirm'].astype(int)
-    avg.to_csv(path_or_buf=os_path.join(out_dir, f"{filename}_avg.csv"))
-    plotting.generate_plots(pd_cases_trunc, avg, filename)
-    plotting.generate_plots_log_normal(pd_cases_trunc, avg, filename)
+    avg.to_csv(path_or_buf=os_path.join(plots_data, f"{filename}_avg.csv"))
+    deaths = pd.read_csv(filepath_or_buffer=os_path.join(out_dir, 'deaths.csv'), index_col='date', parse_dates=True)
+    plotting.cases_and_deaths(pd_cases_trunc, avg, deaths, filename)
+    plotting.cases_and_deaths_log_and_norm(pd_cases_trunc, avg, deaths, filename)
 
 class NSW_Health_API:
     nsw_url = nsw_url

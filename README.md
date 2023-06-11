@@ -6,8 +6,12 @@ aggregate data from different sources into easy to access .csv files
 
 [**dates_cases.csv**](https://github.com/technisculpt/nsw-health-covid-data/blob/main/output/dates_cases.csv) - cases per day (above filtered to a per day time series)
 
-[**website.csv**](https://github.com/technisculpt/nsw-health-covid-data/blob/main/output/website.csv) - deaths, hospitilizations, ICU, pcr cases, rat cases and total cases as [reported weekly](https://www.health.nsw.gov.au/Infectious/covid-19/Pages/stats-nsw.aspx) 
+[**website_stats.csv**](https://github.com/technisculpt/nsw-health-covid-data/blob/main/output/website.csv) - deaths, hospitilizations, ICU, pcr cases, rat cases and total cases as [reported weekly](https://www.health.nsw.gov.au/Infectious/covid-19/Pages/stats-nsw.aspx)
 
-![alt text](https://github.com/technisculpt/nsw-health-covid-data/blob/main/20220120-20230609.png)
+[**deaths.csv**](https://github.com/technisculpt/nsw-health-covid-data/blob/main/output/deaths.csv) - deaths taken from the [surveillance reports](https://www.health.nsw.gov.au/Infectious/covid-19/Pages/weekly-reports.aspx) up until 2023-04-29 and a combination of the website and twitter after
 
-![alt text](https://github.com/technisculpt/nsw-health-covid-data/blob/main/20220120-20230609_log.png)
+[**pdf_deaths.csv**](https://github.com/technisculpt/nsw-health-covid-data/blob/main/output/pdf_deaths.csv) - deaths taken only from the [surveillance reports](https://www.health.nsw.gov.au/Infectious/covid-19/Pages/weekly-reports.aspx) **(deprecated)**
+
+![alt text](https://github.com/technisculpt/nsw-health-covid-data/blob/main/latest.png)
+
+![alt text](https://github.com/technisculpt/nsw-health-covid-data/blob/main/latest_log.png)

@@ -17,7 +17,11 @@ jobs:
         cache: 'pip'
     - run: pip install -r requirements.txt
 
-    - name: Scrape website
+    - name: Check for PDF
+      id: weekly_pdf
+      run: python nsw_pdf.py
+
+    - name: Check website
       id: website
       run: python nsw_website.py
 

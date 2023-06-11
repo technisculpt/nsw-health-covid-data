@@ -1,6 +1,4 @@
-# deaths are no longer printerd here
-
-# pip install pypdf2, requests
+# currently not parsing any information, just backing up the pdfs as they become available
 # https://www.health.nsw.gov.au/Infectious/covid-19/Pages/weekly-reports.aspx
 
 import pandas as pd
@@ -20,14 +18,13 @@ latest_file = r'pdf.json'
 pdf_stub = r'weekly-covid-overview-'
 base_url = r'https://www.health.nsw.gov.au/Infectious/covid-19/Documents/weekly-covid-overview-'
 out_path = sep.join(os_path.realpath(__file__).split(sep)[0:-1] + ['output'])
-pdf_path = os_path.join(out_path, f'pdfs')
-print(pdf_path)
+pdf_path = os_path.join(out_path, 'pdfs')
+output_csv = os_path.join(out_path, "pdf_deaths.csv")
 
 def check_for_pdf() -> None:
 
     today_date = pd.to_datetime("today")
     latest_date = pd.to_datetime(latest_data.get('nsw_pdf'))
-    print((today_date - (latest_date + pd.Timedelta(3, "d"))).days)
     if (today_date - (latest_date + pd.Timedelta(3, "d"))).days  > 6: # report typically published 4-5 days after report ending date
         dates = pd.date_range(start=latest_date + pd.Timedelta(1, "d"), end=today_date, freq='W-SAT', tz='Australia/Sydney', normalize=True)
         
@@ -53,7 +50,6 @@ def check_for_pdf() -> None:
 def get_historical_data() -> None:
 
     start='2022-02-19'
-    #times = pd.date_range(start=start, periods=3, freq='W-' + pd.to_datetime(start).strftime('%a'), tz='Australia/Sydney', normalize=True)
     times = pd.date_range(start=start, end=pd.to_datetime('today'), freq='W-' + pd.to_datetime(start).strftime('%a'), tz='Australia/Sydney', normalize=True)
 
     if not os_path.exists(pdf_path):
@@ -67,13 +63,13 @@ def get_historical_data() -> None:
 
         if (response.status_code == 200):
 
-            if os_path.isfile(f"{pdf_path}{pdf_stub}{date}.pdf"):
+            if os_path.isfile(f"{pdf_path}/{pdf_stub}{date}.pdf"):
                 print(f"PDF on date {date} already saved")
                 continue
 
             print(f"Saving PDF from date {date}")
             response = requests.get(url)
-            with open(f"{pdf_path}{pdf_stub}{date}.pdf", 'wb') as f:
+            with open(f"{pdf_path}/{pdf_stub}{date}.pdf", 'wb') as f:
                 f.write(response.content)
         
         elif (response.status_code == 404):
@@ -81,7 +77,7 @@ def get_historical_data() -> None:
             
     latest_data.put('nsw_pdf', date)
 
-def extract_data(nsw_pdf='pdfs/weekly-covid-overview-20230408.pdf') -> list: # or dict?
+def parse_stats_v2(nsw_pdf='pdfs/weekly-covid-overview-20230408.pdf') -> list: # or dict?
     
     death_cnt = []
     dates = []
@@ -225,12 +221,12 @@ def extract_data(nsw_pdf='pdfs/weekly-covid-overview-20230408.pdf') -> list: # o
             gender_flag = True
 
     print(nsw_pdf)
-    # print(gender)
-    # print(age)
-    # print(district)
+    print(gender)
+    print(age)
+    print(district)
     print(total)
 
-def get_deaths() -> None: # this only works for up until 20230429
+def parse_stats() -> None: # deaths only. works for up until 20230429
 
     from PyPDF2 import PdfReader
 
@@ -282,15 +278,13 @@ def get_deaths() -> None: # this only works for up until 20230429
                         break
 
     death_pd = pd.DataFrame({"deaths": death_cnt, "date": dates}).set_index("date")
-    #step_plot(death_pd, str(date).split('-')[0] + '_deaths_plot')
-    filename = os_path.join(out_path, "deaths.csv")
-    death_pd.to_csv(path_or_buf = filename)
-    step_plot(pd.read_csv(filepath_or_buffer = filename, index_col = 'date', parse_dates = True), "deaths")
+    death_pd.to_csv(path_or_buf = output_csv)
 
 def main() -> None:
     #get_historical_data()
     check_for_pdf()
-    get_deaths()
+    #parse_stats()
+    
 
 
 if __name__ == '__main__':
