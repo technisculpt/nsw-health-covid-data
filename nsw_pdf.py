@@ -9,7 +9,6 @@ import requests
 
 #from PyPDF2 import PdfReader
 
-from common.plotting import step_plot
 import common.latest_data as latest_data
 
 latest_file = r'pdf.json'
