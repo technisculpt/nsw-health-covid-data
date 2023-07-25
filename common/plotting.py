@@ -49,7 +49,7 @@ def cases_and_deaths_log_and_norm(pd_cases, averaged, deaths, filename):
     fig, ax = plt.subplots(figsize=fig_size)
     plt.title('cases and deaths (log norm)')
     ax.set_xlabel('date')
-    ax.set_ylabel('cases, ', color='limegreen')
+    ax.set_ylabel('cases', color='limegreen')
     #log_norm(pd_cases, 'confirm')
     #log_norm(averaged, 'confirm')
     #log_norm(deaths, 'deaths')
