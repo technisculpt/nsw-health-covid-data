@@ -6,7 +6,6 @@ import os
 from os import sep, mkdir
 from os import path as os_path
 import requests
-
 #from PyPDF2 import PdfReader
 
 import common.latest_data as latest_data
@@ -25,22 +24,25 @@ def check_for_pdf() -> None:
     latest_date = pd.to_datetime(latest_data.get('nsw_pdf'))
     if (today_date - (latest_date + pd.Timedelta(3, "d"))).days  > 6: # report typically published 4-5 days after report ending date
         dates = pd.date_range(start=latest_date + pd.Timedelta(1, "d"), end=today_date, freq='W-SAT', tz='Australia/Sydney', normalize=True)
-        
         for date in dates:
             new_date = f"{''.join(str(date.normalize().date()).split('-'))}"
             url = f"{base_url}{new_date}.pdf"
-            response = requests.head(url)
 
+            #response = requests.get(url)
+            response = requests.get('https://www.health.nsw.gov.au/Infectious/covid-19/Documents/weekly-covid-overview-20230826.pdf',verify=False)
             if (response.status_code == 200):
 
                 print(f"Saving PDF from date {new_date}")
-                response = requests.get(url)
+                response = requests.get(url,verify=False)
                 with open(f"{pdf_path}{pdf_stub}{new_date}.pdf", 'wb') as f:
                     f.write(response.content)
                 latest_data.put('nsw_pdf', new_date)
             
             elif (response.status_code == 404):
                 print(f"No PDF on date {new_date}")
+
+            elif (response.status_code == 401):
+                print(f"Authorisation required for {new_date}")
 
             else:
                 print(f"Error retrieving PDF for {new_date}: {response.status_code}")
