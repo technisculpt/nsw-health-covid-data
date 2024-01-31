@@ -1,3 +1,7 @@
+# the NSW health case API is deprecated.
+
+For up to date information consult the fortnightly NSW [**respiratory surveillance**](https://www.health.nsw.gov.au/Infectious/covid-19/Pages/reports.aspx) or the [**federal reporting**](https://www.health.gov.au/topics/covid-19/reporting) 
+
 # nsw-health-covid-data
 
 aggregate data from different sources into easy to access .csv files
